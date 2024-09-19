@@ -5,6 +5,8 @@ class Program
     static void Main(string[] args)
     {
         Console.WriteLine("Hello Sandbox World!");
-        Console.WriteLine("My name is Ma");
+        Console.Write("What is your name? ");
+        string name = Console.ReadLine();
+        Console.WriteLine($"Hello, {name}!");
     }
 }
