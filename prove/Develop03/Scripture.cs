@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-class Scripture {
+class Scripture
+{
     private Reference _reference;
     private List<Word> _words = new List<Word>();
+    private static Random random = new Random();  // Inicialización del generador de números aleatorios
 
     public Scripture(Reference reference, string text)
     {
@@ -17,35 +19,37 @@ class Scripture {
     public string GetDisplayText()
     {
         string displayText = "";
+
         foreach (Word word in _words)
         {
             displayText += $" {word.GetDisplayText()}";
         }
-        return displayText.Trim();
+
+        // Añadir la referencia al texto
+        string referenceText = _reference.GetDisplayText();
+        referenceText += $"{displayText}";
+        return referenceText.Trim();
     }
 
     public void HideRandomWords(int numberToHide)
     {
-        Random random = new Random();
         int hiddenCount = 0;
-
+        
         while (hiddenCount < numberToHide)
         {
-            int randomNumber = random.Next(0, _words.Count);
+            int randomNumber = random.Next(0, _words.Count);  // Generar un número aleatorio
             Word randomWord = _words[randomNumber];
 
-            if (!randomWord.IsHidden)
+            if (!randomWord.IsHidden)  // Solo ocultar si no está oculto
             {
-                randomWord.IsHidden = true;
-                randomWord.Hide();
-                _words[randomNumber] = randomWord;
-                hiddenCount++;
+                randomWord.Hide();  // Ocultar palabra
+                hiddenCount++;      // Aumentar el contador de palabras ocultas
             }
         }
     }
 
     public bool IsCompletelyHidden()
     {
-        return _words.All(word => word.IsHidden);
+        return _words.All(word => word.IsHidden);  // Verificar si todas las palabras están ocultas
     }
 }
